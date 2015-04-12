@@ -20,9 +20,9 @@ render: -> """
     <circle id="tip" cx="106" cy="14" r="6"
       clip-path="url(#cut-off-left)" />
     <rect id="charge" x="4" y="4" rx="2" ry="2" height="20" />
+    <text id="text" x="8" y="18" style="font-size:12">##%</text>
     <path id="bolt" d="M3 0l-3 5h2v3l3-5h-2v-3z" transform="translate(50,6), scale(2)" />
   </svg>
-  <div id="text"></div>
 """
 
 update: (output, domEl) ->
@@ -39,15 +39,15 @@ update: (output, domEl) ->
 
   $('#charge').attr('width',charge)
   $('#charge').css('fill',fill)
-  $('#bolt').css('display',if state != 'charging' then 'none')
+  $('#bolt').css('display',if state == 'discharging' then 'none' else 'block')
 
-  text.html(charge + '%: ' + state)
+  text.text(charge + '%')
 
 style: """
     main = rgba(#fff,1)
     color: main
     scale = .9
-    opacity = .6
+    opacity = .7
 
     bottom: 80px
     left: 20px
@@ -73,7 +73,7 @@ style: """
 
     #text
       font-weight: bold
-      opacity: opacity
+      fill: main
 
     #bolt
       position: absolute
