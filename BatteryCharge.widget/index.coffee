@@ -28,10 +28,12 @@ render: -> """
 update: (output, domEl) ->
   values = output.split(' ')
   text = $('#text')
-  charge = parseInt(values[0])
-  statePreSierra = values[1]
-  stateSierra = values[2]     #pmset output changed for OSX Sierra
-  discharging = statePreSierra == 'discharging' || stateSierra == 'discharging'
+  charge = values.filter((v) ->
+    return v.indexOf('%') == v.length - 1)
+    .map(parseInt)[0]
+
+  charging = values.filter((v) ->
+    return v.indexOf('charg') == 0).length
 
   if charge <= 25
     fill = '250,'+ 8 * charge + ',0'
@@ -41,9 +43,11 @@ update: (output, domEl) ->
 
   $('#charge').attr('width',charge)
   $('#charge').css('fill',fill)
-  $('#bolt').css('display', discharging ? 'none' : 'block')
+  $('#bolt').css('display', charging ? 'block' : 'none')
 
   text.text(charge + '%')
+
+
 
 style: """
     main = rgba(#fff,1)
