@@ -43,7 +43,8 @@ update: (output, domEl) ->
 
   $('#charge').attr('width',charge)
   $('#charge').css('fill',fill)
-  $('#bolt').css('display', charging ? 'block' : 'none')
+  $('#bolt').css('display', charging && 'block' || 'none')
+
 
   text.text(charge + '%')
 
